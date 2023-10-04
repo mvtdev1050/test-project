@@ -19,6 +19,12 @@ const Header = () => {
             <Link to="/cart" className="link mx-2">
               CART {cart?.length === 0 ? "" : `(${cart.length})`}
             </Link>
+            <Link to="/signup" className="link mx-2">
+              SIGNUP
+            </Link>
+            <Link to="/login" className="link mx-2">
+              LOGIN
+            </Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

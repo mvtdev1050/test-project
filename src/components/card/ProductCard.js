@@ -51,7 +51,7 @@ const ProductCard = ({ productList }) => {
               </Col>
               <Col>
                 <div>
-                  <h1>{product?.title}</h1>
+                  <h1>{(product?.title).substring(0, 20)}</h1>
                   <div className="flexSB">
                     <span>Rs. {product?.price}</span>
                     <p>Total: {product?.qty * product?.price}</p>

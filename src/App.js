@@ -6,6 +6,8 @@ import Cart from "./pages/cart/Cart";
 import Product from "./pages/Product";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SignupForm from "./pages/auth/SignupForm";
+import LoginForm from "./pages/auth/LoginForm";
 // import Footer from "./layout/footer/Footer";
 
 const App = () => {
@@ -14,13 +16,13 @@ const App = () => {
   return (
     <BrowserRouter>
       <Header />
-      <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/product/:id" element={<Product />} />
-        </Routes>
-      </main>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/product/:id" element={<Product />} />
+        <Route path="/signup" element={<SignupForm />} />
+        <Route path="/login" element={<LoginForm />} />
+      </Routes>
       <ToastContainer
         position="top-center"
         autoClose={5000}
