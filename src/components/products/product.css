@@ -1,0 +1,22 @@
+.product_card_column {
+  margin-bottom: 60px;
+}
+
+.product_card {
+  height: 300px;
+  width: 100%;
+}
+.product_card img {
+  width: 80%;
+}
+.product_card_container {
+  height: 100%;
+}
+
+.product_card_container .product_image_container {
+  height: 300px;
+  width: 300px;
+}
+.product_title {
+  margin: 100px 0;
+}

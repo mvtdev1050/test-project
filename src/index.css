@@ -1,0 +1,46 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ------------flex classes---------------- */
+
+.flexSB {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flexGrid {
+  display: grid;
+  place-items: center;
+}
+
+/* ------------flex classes end------------ */
+
+img {
+  height: 100%;
+  width: 100%;
+}
+
+.common_section {
+  margin: 50px 0;
+}
+.link {
+  text-decoration: none;
+  color: black;
+  font-size: 15px;
+}
+
+/* -----------utility classes ------------ */
+
+.cursor {
+  cursor: pointer;
+}
