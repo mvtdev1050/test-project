@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
-import "./product.css";
 import defaultProductImg from "../../assets/images/photo-1591047139829-d91aecb6caea.avif";
+import { fetchProducts } from "../../store/actions/productAction";
+import "./product.css";
 
-const Productlist = ({ productList }) => {
+const Productlist = () => {
+  const productList = useSelector((state) => state?.products);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, []);
 
   const handleGoTo = (id) => {
     navigate(`/product/${id}`);

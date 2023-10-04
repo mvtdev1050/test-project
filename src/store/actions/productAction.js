@@ -1,8 +1,9 @@
-import axios from "axios";
+import api from "../../config/index";
 
 export const fetchProducts = () => async (dispatch) => {
   try {
-    let { data } = await axios.get("https://fakestoreapi.com/products");
+    let { data } = await api.get();
+    // let { data } = await axios.get("https://fakestoreapi.com/products");
 
     dispatch({ type: "FETCH_DATA", payload: data });
   } catch (error) {
@@ -12,7 +13,9 @@ export const fetchProducts = () => async (dispatch) => {
 
 export const fetchSingleProduct = (id) => async (dispatch) => {
   try {
-    let { data } = await axios.get(`https://fakestoreapi.com/products/${id}`);
+    let { data } = await api.get(`/${id}`);
+    // let { data } = await axios.get(`https://fakestoreapi.com/products/${id}`);
+
     let tempArr = [];
     tempArr.push(data);
     dispatch({ type: "FETCH_SINGLE_PRODUCT", payload: tempArr });
@@ -23,9 +26,7 @@ export const fetchSingleProduct = (id) => async (dispatch) => {
 
 export const filterByCategory = (category) => async (dispatch) => {
   try {
-    let { data } = await axios.get(
-      `https://fakestoreapi.com/products/category/${category}`
-    );
+    let { data } = await api.get(`/category/${category}`);
     dispatch({ type: "FILTER_BY_CATEGORY", payload: data });
   } catch (error) {
     console.log(error);

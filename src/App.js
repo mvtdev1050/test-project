@@ -6,6 +6,7 @@ import Cart from "./pages/cart/Cart";
 import Product from "./pages/Product";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+// import Footer from "./layout/footer/Footer";
 
 const App = () => {
   console.log("app component rendered");

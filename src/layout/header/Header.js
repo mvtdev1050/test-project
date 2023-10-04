@@ -7,16 +7,16 @@ import { Link } from "react-router-dom";
 const Header = () => {
   const cart = useSelector((state) => state?.cart);
   return (
-    <Navbar expand="lg" bg="light" data-bs-theme="light" fixed="sticky">
+    <Navbar expand="lg" bg="light" data-bs-theme="light" sticky="top">
       <Container>
         <Navbar.Brand href="#home">Ecommerce-Website</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Link to="/" className="link">
+            <Link to="/" className="link mx-2">
               HOME
             </Link>
-            <Link to="/cart" className="link" style={{ marginLeft: "10px" }}>
+            <Link to="/cart" className="link mx-2">
               CART {cart?.length === 0 ? "" : `(${cart.length})`}
             </Link>
           </Nav>

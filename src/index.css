@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+img {
+  height: 100%;
+  width: 100%;
+}
 /* ------------flex classes---------------- */
 
 .flexSB {
@@ -25,22 +29,18 @@
 
 /* ------------flex classes end------------ */
 
-img {
-  height: 100%;
-  width: 100%;
-}
+/* -----------utility classes ------------ */
 
 .common_section {
   margin: 50px 0;
 }
+
+.cursor {
+  cursor: pointer;
+}
+
 .link {
   text-decoration: none;
   color: black;
   font-size: 15px;
-}
-
-/* -----------utility classes ------------ */
-
-.cursor {
-  cursor: pointer;
 }
