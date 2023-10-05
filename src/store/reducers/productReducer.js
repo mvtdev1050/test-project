@@ -2,8 +2,6 @@ const productReducer = (state = [], { type, payload }) => {
   switch (type) {
     case "FETCH_DATA":
       return payload;
-    case "FETCH_SINGLE_PRODUCT":
-      return payload;
     case "FETCH_CATEGORIES":
       return payload;
     case "FILTER_BY_CATEGORY":

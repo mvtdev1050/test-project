@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
 import { fetchProducts } from "../../store/actions/productAction";
 import defaultProductImg from "../../assets/images/photo-1591047139829-d91aecb6caea.avif";
-import { BsArrowRight } from "react-icons/bs";
+// import { BsArrowRight } from "react-icons/bs";
 import { GoLinkExternal } from "react-icons/go";
+import Loader from "../loader";
 
 import "./product.css";
 
@@ -50,7 +51,7 @@ const Productlist = () => {
               </Col>
             );
           })
-        : "No Products"}
+        : null}
     </Row>
   );
 };

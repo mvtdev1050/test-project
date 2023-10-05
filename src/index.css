@@ -44,13 +44,6 @@ img {
   cursor: pointer;
 }
 
-.link {
-  text-decoration: none;
-  color: black;
-  font-size: 15px;
-  padding: 0;
-}
-
 .custom_white_button {
   background-color: white;
   border: none;
