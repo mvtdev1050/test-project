@@ -17,13 +17,6 @@ const SignupForm = () => {
     password: "",
   });
 
-  // const [user, setUser] = useState({
-  //   name: "Niamudeen",
-  //   email: "test@gmail.com",
-  //   phone: "8547854788",
-  //   password: "123",
-  // });
-
   const [errors, setErrors] = useState({});
 
   useEffect(() => {

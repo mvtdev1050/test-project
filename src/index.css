@@ -48,6 +48,7 @@ img {
   text-decoration: none;
   color: black;
   font-size: 15px;
+  padding: 0;
 }
 
 .custom_white_button {

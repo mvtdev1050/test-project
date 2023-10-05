@@ -42,20 +42,18 @@ const ProductCard = ({ productList }) => {
                   onClick={() => handleRemove(product?.id)}
                 />
               </p>
-              <Col className="flexGrid">
+              <Col className="flexGrid col-4">
                 <img
                   src={product?.image}
                   alt="Product-image"
                   className="img-fluid product_img"
                 />
               </Col>
-              <Col>
+              <Col className="col-8">
                 <div>
                   <h1>{(product?.title).substring(0, 20)}</h1>
-                  <div className="flexSB">
-                    <span>Rs. {product?.price}</span>
-                    <p>Total: {product?.qty * product?.price}</p>
-                  </div>
+                  <span>Rs. {product?.price}</span>
+                  <p>Total: {product?.qty * product?.price}</p>
                   <div className="mb-3">
                     <button
                       className="custom-counter"

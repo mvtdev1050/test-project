@@ -37,18 +37,20 @@ const LoginForm = () => {
     let noErrors = checkIfobjEmpty(formErrors);
 
     let currentUserId = "";
-    let existUser = "";
+    let existUser = false;
 
-    userList.forEach((e) => {
-      if (e.email === user.email && e.password === user.password) {
-        currentUserId = e.id;
-        return (existUser = true);
-      } else {
-        return (existUser = false);
-      }
-    });
+    const checkIfUserExist = () => {
+      console.log(userList, "userlist");
+      userList?.forEach((e) => {
+        if (e.email === user.email && e.password === user.password) {
+          currentUserId = e.id;
+          existUser = true;
+        }
+      });
+    };
+    checkIfUserExist();
 
-    console.log(noErrors, existUser);
+    console.log(existUser, "existUser");
 
     if (noErrors && existUser) {
       console.log("1111111111");
