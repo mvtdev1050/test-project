@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { validateForm } from "../../utils/validation";
+import { checkIfobjEmpty, validateForm } from "../../utils/validation";
 import { sendNotification } from "../../utils/notifications";
 import { Link, useNavigate } from "react-router-dom";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const { userList } = useLocalStorage();
 
   const [user, setUser] = useState({
     email: "",
@@ -32,21 +34,29 @@ const LoginForm = () => {
     const formErrors = validateForm(user);
     setErrors(formErrors);
 
-    let usersList = JSON.parse(localStorage.getItem("users"));
-    console.log(usersList);
+    let noErrors = checkIfobjEmpty(formErrors);
 
-    let existUser = usersList.filter((e) => {
+    let currentUserId = "";
+    let existUser = "";
+
+    userList.forEach((e) => {
       if (e.email === user.email && e.password === user.password) {
-        return true;
+        currentUserId = e.id;
+        return (existUser = true);
       } else {
-        return false;
+        return (existUser = false);
       }
     });
 
-    if (Object.keys(formErrors).length === 0 && existUser) {
-      sendNotification("success", "User Created Successfully");
-      navigate("/login");
+    console.log(noErrors, existUser);
+
+    if (noErrors && existUser) {
+      console.log("1111111111");
+      localStorage.setItem("userId", currentUserId);
+      sendNotification("success", "User Login Successfully");
+      navigate("/user");
     } else {
+      console.log("222222222");
       sendNotification("danger", "User not exist");
     }
   };

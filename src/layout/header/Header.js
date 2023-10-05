@@ -2,10 +2,13 @@ import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 // import { BsCart } from "react-icons/bs";
 
 const Header = () => {
   const cart = useSelector((state) => state?.cart);
+  const { handleLogout } = useLocalStorage();
+
   return (
     <Navbar expand="lg" bg="light" data-bs-theme="light" sticky="top">
       <Container>
@@ -25,6 +28,7 @@ const Header = () => {
             <Link to="/login" className="link mx-2">
               LOGIN
             </Link>
+            <button onClick={() => handleLogout()}>LOGOUT</button>
           </Nav>
         </Navbar.Collapse>
       </Container>

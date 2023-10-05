@@ -33,3 +33,14 @@ export const validateForm = (obj) => {
 
   return error;
 };
+
+export const checkIfobjEmpty = (obj) => {
+  let noErrors = "";
+  Object.keys(obj).forEach((e) => {
+    if (obj[e] === "") {
+      return (noErrors = true);
+    } else return (noErrors = false);
+  });
+
+  return noErrors;
+};

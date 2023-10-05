@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useId, useState } from "react";
 import { Container } from "react-bootstrap";
-import { validateForm } from "../../utils/validation";
+import { checkIfobjEmpty, validateForm } from "../../utils/validation";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { sendNotification } from "../../utils/notifications";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const SignupForm = () => {
   const navigate = useNavigate();
+  const { userList } = useLocalStorage();
 
   const [user, setUser] = useState({
     name: "",
@@ -14,6 +16,14 @@ const SignupForm = () => {
     phone: "",
     password: "",
   });
+
+  // const [user, setUser] = useState({
+  //   name: "Niamudeen",
+  //   email: "test@gmail.com",
+  //   phone: "8547854788",
+  //   password: "123",
+  // });
+
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -35,14 +45,40 @@ const SignupForm = () => {
     const formErrors = validateForm(user);
     setErrors(formErrors);
 
-    let tempArr = [];
-    tempArr.push(user);
+    console.log(formErrors, Object.keys(formErrors).length);
 
-    localStorage.setItem("users", JSON.stringify(tempArr));
+    let updatedUserList = [];
+    let existUser = false;
 
-    if (Object.keys(formErrors).length === 0) {
+    updatedUserList = [
+      ...userList,
+      {
+        ...user,
+        id: new Date().getTime(),
+      },
+    ];
+
+    // userList?.forEach((e) => {
+    //   if (e.email === user.email && e.password === user.password) {
+    //     return (existUser = true);
+    //   } else {
+    //     return (existUser = false);
+    //   }
+    // });
+
+    let noErrors = checkIfobjEmpty(formErrors);
+    console.log(updatedUserList, "updatedUserList", noErrors, !existUser);
+
+    if (existUser) {
+      console.log("1111111");
+      sendNotification("warning", "User Already Existed");
+    } else if (noErrors) {
+      localStorage.setItem("users", JSON.stringify(updatedUserList));
+      console.log("222222");
       sendNotification("success", "User Created Successfully");
       navigate("/login");
+    } else {
+      console.log("33333333");
     }
   };
 

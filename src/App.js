@@ -4,10 +4,11 @@ import Home from "./pages/Home";
 import Header from "./layout/header/Header";
 import Cart from "./pages/cart/Cart";
 import Product from "./pages/Product";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import SignupForm from "./pages/auth/SignupForm";
 import LoginForm from "./pages/auth/LoginForm";
+import { ToastContainerNotification } from "./utils/notifications";
+import User from "./pages/user";
 // import Footer from "./layout/footer/Footer";
 
 const App = () => {
@@ -20,21 +21,11 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/product/:id" element={<Product />} />
+        <Route path="/user" element={<User />} />
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/login" element={<LoginForm />} />
       </Routes>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <ToastContainerNotification />
     </BrowserRouter>
   );
 };
