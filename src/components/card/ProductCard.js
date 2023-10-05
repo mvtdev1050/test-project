@@ -16,7 +16,6 @@ const ProductCard = ({ productList }) => {
   };
 
   const handleIncrement = (id) => {
-    console.log(id, "id");
     dispatch(addQTY(id));
   };
 

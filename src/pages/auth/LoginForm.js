@@ -40,7 +40,6 @@ const LoginForm = () => {
     let existUser = false;
 
     const checkIfUserExist = () => {
-      console.log(userList, "userlist");
       userList?.forEach((e) => {
         if (e.email === user.email && e.password === user.password) {
           currentUserId = e.id;
@@ -50,13 +49,11 @@ const LoginForm = () => {
     };
     checkIfUserExist();
 
-    console.log(existUser, "existUser");
-
     if (noErrors && existUser) {
       console.log("1111111111");
       localStorage.setItem("userId", currentUserId);
       sendNotification("success", "User Login Successfully");
-      navigate("/user");
+      navigate("/");
     } else {
       console.log("222222222");
       sendNotification("danger", "User not exist");
@@ -77,18 +74,20 @@ const LoginForm = () => {
                 value={user.email}
                 onChange={handleChange}
                 placeholder=" Email .........."
+                autoComplete="off"
               />
             </div>
             <p className="text-danger">{errors?.email ? errors.email : ""}</p>
 
             <div className="mb-3">
               <input
-                type="text"
+                type="password"
                 className="px-2"
                 name="password"
                 value={user.password}
                 onChange={handleChange}
                 placeholder=" Password .........."
+                autoComplete="off"
               />
             </div>
             <p className="text-danger">

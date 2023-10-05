@@ -26,7 +26,7 @@ export const validateForm = (obj) => {
   if (obj.password === "") {
     error.password = "This field is required";
   } else if (obj.password.trim().length < 3) {
-    error.password = "Please Enter a valid password";
+    error.password = "Please must contain atleast 3 characters";
   } else {
     error.password = "";
   }

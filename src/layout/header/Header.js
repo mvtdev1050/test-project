@@ -1,20 +1,21 @@
 import React from "react";
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { BsCart, BsCartFill } from "react-icons/bs";
+import { FiLogOut } from "react-icons/fi";
+import { FaUserCircle } from "react-icons/fa";
 import "./header.css";
 
 const Header = () => {
+  const { userId, logout, currentUser } = useLocalStorage();
   const cart = useSelector((state) => state?.cart);
 
   const route = useLocation()?.pathname;
-  // const { userId, logout } = useLocalStorage();
   return (
     <Navbar expand="lg" bg="light" data-bs-theme="light" sticky="top">
       <Container>
-        <Navbar.Brand href="#home">Ecommerce-Website</Navbar.Brand>
+        <Navbar.Brand to="#home">Ecommerce-Website</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto  flexCenter">
@@ -24,43 +25,61 @@ const Header = () => {
             >
               HOME
             </Link>
-            <Link to="/cart" className="link mx-2">
-              {route === "/cart" || route.split("/")[1] === "product" ? (
-                <span className="cart_icon ">
-                  <BsCartFill />
-                </span>
-              ) : (
-                <span className="cart_icon ">
-                  <BsCart />
-                </span>
-              )}
-              <span className={cart?.length === 0 ? "" : "cart_count"}>
-                {cart?.length === 0 ? "" : cart.length}
-              </span>
-            </Link>
-            {/* {userId === null ? null : (
-              <Link to="/user" className="link mx-2">
-                USER
-              </Link>
-            )}
             {userId === null ? (
-              <Link to="/signup" className="link mx-2">
+              <Link
+                to="/signup"
+                className={` pt-2 mx-2 ${
+                  route === "/signup" ? "active" : "link"
+                }`}
+              >
                 SIGNUP
               </Link>
             ) : null}
             {userId === null ? (
-              <Link to="/login" className="link mx-2">
+              <Link
+                to="/login"
+                className={` pt-2 mx-2 ${
+                  route === "/login" ? "active" : "link"
+                }`}
+              >
                 LOGIN
               </Link>
-            ) : (
+            ) : null}
+            {userId === null ? null : (
               <Link
-                to="/"
-                className="link mx-2 cursor "
-                onClick={() => logout()}
+                to="/cart"
+                className={` pt-2 mx-2 ${
+                  route === "/cart" || route.split("/")[1] === "product"
+                    ? "active"
+                    : "link"
+                }`}
               >
-                LOGOUT
+                CART {cart?.length === 0 ? "" : `(${cart.length})`}
               </Link>
-            )} */}
+            )}
+            {userId === null ? null : (
+              <NavDropdown
+                title={currentUser?.name?.toUpperCase()}
+                id="basic-nav-dropdown"
+                className="pt-2"
+                style={{ fontSize: "15px" }}
+              >
+                <div className="flexFront mx-0 px-0">
+                  <Link
+                    to="/user"
+                    className={` mb-2 pt-2 ${
+                      route === "/user" ? "active" : "link"
+                    }`}
+                  >
+                    <FaUserCircle className="mx-1" />
+                    Profile
+                  </Link>
+                  <Link to="#" onClick={() => logout()} className="link">
+                    <FiLogOut className="mx-1" /> Logout
+                  </Link>{" "}
+                </div>
+              </NavDropdown>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

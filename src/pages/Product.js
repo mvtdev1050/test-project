@@ -6,13 +6,14 @@ import { sendNotification } from "../utils/notifications";
 import { addToCart } from "../store/actions/cartActions";
 import api from "../config/index";
 import Loader from "../components/loader";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const Product = () => {
   const [product, setProduct] = useState({});
-
   const { id } = useParams();
   const cartList = useSelector((state) => state?.cart);
   const dispatch = useDispatch();
+  const { userId } = useLocalStorage();
 
   useEffect(() => {
     (async function () {
@@ -26,12 +27,16 @@ const Product = () => {
   }, [id]);
 
   const handleAddtoCart = (product) => {
-    let cartItem = cartList.find((e, i) => e.id === product.id);
-    if (cartItem) {
-      sendNotification("warning", "Item is already added to cart");
+    if (userId === null) {
+      sendNotification("warning", "Please Login to Proceed");
     } else {
-      dispatch(addToCart(product));
-      sendNotification("success", "Item added to Cart Successfully");
+      let cartItem = cartList.find((e, i) => e.id === product.id);
+      if (cartItem) {
+        sendNotification("warning", "Item is already added to cart");
+      } else {
+        dispatch(addToCart(product));
+        sendNotification("success", "Item added to Cart Successfully");
+      }
     }
   };
 

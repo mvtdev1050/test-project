@@ -4,7 +4,6 @@ import ProductCard from "../../components/card/ProductCard";
 
 const Cart = () => {
   const cartList = useSelector((state) => state?.cart);
-  console.log(cartList, "cartlist");
 
   return (
     <section className="common_section">

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const useLocalStorage = () => {
+  const navigate = useNavigate();
   const [userList, setUserList] = useState([]);
   const [userId, setUserId] = useState("");
   const [currentUser, setCurrentUser] = useState({});
@@ -20,12 +22,10 @@ export const useLocalStorage = () => {
   }, [userId, userList]);
 
   const logout = () => {
-    console.log("logout btn clicked");
     localStorage.removeItem("userId");
     setUserId("");
+    navigate("/");
   };
-
-  console.log(userId, "userid");
 
   return { userId, userList, currentUser, logout };
 };

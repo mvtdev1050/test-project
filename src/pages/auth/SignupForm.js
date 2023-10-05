@@ -38,8 +38,6 @@ const SignupForm = () => {
     const formErrors = validateForm(user);
     setErrors(formErrors);
 
-    console.log(formErrors, Object.keys(formErrors).length);
-
     let updatedUserList = [];
     let existUser = false;
 
@@ -51,16 +49,7 @@ const SignupForm = () => {
       },
     ];
 
-    // userList?.forEach((e) => {
-    //   if (e.email === user.email && e.password === user.password) {
-    //     return (existUser = true);
-    //   } else {
-    //     return (existUser = false);
-    //   }
-    // });
-
     let noErrors = checkIfobjEmpty(formErrors);
-    console.log(updatedUserList, "updatedUserList", noErrors, !existUser);
 
     if (existUser) {
       console.log("1111111");
@@ -70,8 +59,6 @@ const SignupForm = () => {
       console.log("222222");
       sendNotification("success", "User Created Successfully");
       navigate("/login");
-    } else {
-      console.log("33333333");
     }
   };
 
@@ -84,6 +71,7 @@ const SignupForm = () => {
             <div className="mb-3">
               <input
                 type="text"
+                autoComplete="off"
                 className="px-2"
                 value={user.name}
                 name="name"
@@ -95,6 +83,7 @@ const SignupForm = () => {
             <div className="mb-3">
               <input
                 type="text"
+                autoComplete="off"
                 className="px-2"
                 name="email"
                 value={user.email}
@@ -106,6 +95,7 @@ const SignupForm = () => {
             <div className="mb-3">
               <input
                 type="text"
+                autoComplete="off"
                 className="px-2"
                 name="phone"
                 value={user.phone}
@@ -117,7 +107,8 @@ const SignupForm = () => {
 
             <div className="mb-3">
               <input
-                type="text"
+                type="password"
+                autoComplete="off"
                 className="px-2"
                 name="password"
                 value={user.password}
