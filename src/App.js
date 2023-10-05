@@ -4,10 +4,11 @@ import Home from "./pages/Home";
 import Header from "./layout/header/Header";
 import Cart from "./pages/cart/Cart";
 import Product from "./pages/Product";
-import SignupForm from "./pages/auth/SignupForm";
-import LoginForm from "./pages/auth/LoginForm";
+// import SignupForm from "./pages/auth/SignupForm";
+// import LoginForm from "./pages/auth/LoginForm";
 import { ToastContainerNotification } from "./utils/notifications";
-import User from "./pages/user";
+// import User from "./pages/user";
+// import Footer from "./layout/footer/Footer";
 // import Footer from "./layout/footer/Footer";
 
 const App = () => {
