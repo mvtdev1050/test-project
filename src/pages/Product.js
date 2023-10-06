@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { sendNotification } from "../utils/notifications";
 import { addToCart } from "../store/actions/cartActions";
-import api from "../config/index";
+import api from "../utils/axios";
 import Loader from "../components/loader";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
@@ -48,7 +48,7 @@ const Product = () => {
         <section className="common_section">
           <Container>
             <Row key={product?.id}>
-              <Col>
+              <Col className="col-10 col-md-6 m-auto mb-5 ">
                 <div className="flexCenter">
                   <img
                     src={product?.image}
@@ -57,7 +57,7 @@ const Product = () => {
                   />
                 </div>
               </Col>
-              <Col>
+              <Col className="col-10 col-md-6 ">
                 <div>
                   <h4 className="text-uppercase text-black-50">
                     {product?.category}

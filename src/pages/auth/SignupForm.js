@@ -1,6 +1,6 @@
 import React, { useEffect, useId, useState } from "react";
 import { Container } from "react-bootstrap";
-import { checkIfobjEmpty, validateForm } from "../../utils/validation";
+import { checkIfobjEmpty, validateForm } from "../../utils/helper";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { sendNotification } from "../../utils/notifications";
@@ -41,8 +41,9 @@ const SignupForm = () => {
     let updatedUserList = [];
     let existUser = false;
 
+    let dataList = userList ? userList : [];
     updatedUserList = [
-      ...userList,
+      ...dataList,
       {
         ...user,
         id: new Date().getTime(),

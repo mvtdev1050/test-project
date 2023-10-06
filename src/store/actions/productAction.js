@@ -1,4 +1,4 @@
-import api from "../../config/index";
+import api from "../../utils/axios";
 
 export const fetchProducts = () => async (dispatch) => {
   try {
