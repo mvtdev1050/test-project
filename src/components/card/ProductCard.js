@@ -1,15 +1,19 @@
 import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import { addQTY, decQTY, removeItem } from "../../store/actions/cartActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BsCart } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { sendNotification } from "../../utils/notifications";
 import "./productcard.css";
 import { AiOutlineClose } from "react-icons/ai";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const ProductCard = ({ productList }) => {
   const dispatch = useDispatch();
+  const { userId, userList } = useLocalStorage();
+
+  const cart = useSelector((state) => state?.cart);
 
   const handleDecrement = (id) => {
     dispatch(decQTY(id));
@@ -21,6 +25,17 @@ const ProductCard = ({ productList }) => {
 
   const handleRemove = (id) => {
     dispatch(removeItem(id));
+    if (userId !== undefined && userList !== undefined && cart?.length !== 0) {
+      let updatedList = userList?.map((e) => {
+        if (e.id == userId) {
+          return {
+            ...e,
+            cart: cart,
+          };
+        } else return e;
+      });
+      localStorage.setItem("users", JSON.stringify(updatedList));
+    }
     sendNotification("success", "Item Removed from Cart Successfully");
   };
 
@@ -28,6 +43,10 @@ const ProductCard = ({ productList }) => {
     total = total + product?.qty * product?.price;
     return total;
   }, 0);
+
+  const handleProceed = () => {
+    sendNotification("success", "Thank you for visiting our website");
+  };
 
   return (
     <Container>
@@ -89,7 +108,7 @@ const ProductCard = ({ productList }) => {
       )}
 
       {productList?.length ? (
-        <div className="px-5 flexSB subtotal_container py-3">
+        <div className="px-5 flexSB subtotal_container py-3 mb-5">
           <p className="p-0 m-0 ms-auto">
             <span className="p-0 m-0 text-uppercase font-weight-bolder">
               SubTotal
@@ -98,6 +117,13 @@ const ProductCard = ({ productList }) => {
           </p>
         </div>
       ) : null}
+      {cart?.length === 0 ? null : (
+        <div className="text-center">
+          <button className="btn btn-outline-dark" onClick={handleProceed}>
+            Proceed To Checkout
+          </button>
+        </div>
+      )}
     </Container>
   );
 };

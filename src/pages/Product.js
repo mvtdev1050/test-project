@@ -10,10 +10,12 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const Product = () => {
   const [product, setProduct] = useState({});
-  const { id } = useParams();
   const cartList = useSelector((state) => state?.cart);
+  const { id } = useParams();
   const dispatch = useDispatch();
-  const { userId } = useLocalStorage();
+  const { userId, userList } = useLocalStorage();
+
+  console.log(cartList, "cart");
 
   useEffect(() => {
     (async function () {
@@ -26,6 +28,24 @@ const Product = () => {
     })();
   }, [id]);
 
+  // useEffect(() => {
+  //   if (
+  //     userId !== undefined &&
+  //     userList !== undefined &&
+  //     cartList?.length !== 0
+  //   ) {
+  //     let updatedList = userList?.map((e) => {
+  //       if (e.id == userId) {
+  //         return {
+  //           ...e,
+  //           cart: cartList,
+  //         };
+  //       } else return e;
+  //     });
+  //     localStorage.setItem("users", JSON.stringify(updatedList));
+  //   }
+  // }, [cartList]);
+
   const handleAddtoCart = (product) => {
     if (userId === null) {
       sendNotification("warning", "Please Login to Proceed");
@@ -35,6 +55,21 @@ const Product = () => {
         sendNotification("warning", "Item is already added to cart");
       } else {
         dispatch(addToCart(product));
+        if (
+          userId !== undefined &&
+          userList !== undefined &&
+          cartList?.length !== 0
+        ) {
+          let updatedList = userList?.map((e) => {
+            if (e.id == userId) {
+              return {
+                ...e,
+                cart: cartList,
+              };
+            } else return e;
+          });
+          localStorage.setItem("users", JSON.stringify(updatedList));
+        }
         sendNotification("success", "Item added to Cart Successfully");
       }
     }

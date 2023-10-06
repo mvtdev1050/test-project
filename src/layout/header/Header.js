@@ -6,10 +6,12 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { FiLogOut } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import "./header.css";
+import { type } from "@testing-library/user-event/dist/type";
 
 const Header = () => {
-  const { userId, logout, currentUser } = useLocalStorage();
+  const { userId, userList, logout, currentUser } = useLocalStorage();
   const cart = useSelector((state) => state?.cart);
+  console.log(userList, typeof userList);
 
   const route = useLocation()?.pathname;
   return (
@@ -25,7 +27,7 @@ const Header = () => {
             >
               HOME
             </Link>
-            {userId === null ? (
+            {userId === null || userList?.length === 0 ? (
               <Link
                 to="/signup"
                 className={` pt-2 mx-2 ${
@@ -35,7 +37,7 @@ const Header = () => {
                 SIGNUP
               </Link>
             ) : null}
-            {userId === null ? (
+            {userId === null || userList?.length === 0 ? (
               <Link
                 to="/login"
                 className={` pt-2 mx-2 ${
@@ -45,7 +47,7 @@ const Header = () => {
                 LOGIN
               </Link>
             ) : null}
-            {userId === null ? null : (
+            {userId === null || userList?.length === 0 ? null : (
               <Link
                 to="/cart"
                 className={` pt-2 mx-2 ${
@@ -57,7 +59,7 @@ const Header = () => {
                 CART {cart?.length === 0 ? "" : `(${cart.length})`}
               </Link>
             )}
-            {userId === null ? null : (
+            {userId === null || userList?.length === 0 ? null : (
               <NavDropdown
                 title={currentUser?.name?.toUpperCase()}
                 id="basic-nav-dropdown"
@@ -71,8 +73,7 @@ const Header = () => {
                       route === "/user" ? "active" : "link"
                     }`}
                   >
-                    <FaUserCircle className="mx-1" />
-                    Profile
+                    <FaUserCircle className="mx-1" /> Profile
                   </Link>
                   <Link to="#" onClick={() => logout()} className="link">
                     <FiLogOut className="mx-1" /> Logout
