@@ -1,31 +1,55 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { cartProductsByUserId } from "../services/api/products";
+import { getUserId } from "../utils/helper";
+import { userById } from "../services/api/user";
+import { sendNotification } from "../utils/notifications";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCartProducts } from "../store/actions/cartActions";
 
 export const useLocalStorage = () => {
   const navigate = useNavigate();
-  const [userList, setUserList] = useState([]);
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState(getUserId());
   const [currentUser, setCurrentUser] = useState({});
+  const [refreshList, setRefreshList] = useState(false);
+
+  const cartList = useSelector((state) => state?.cart);
+
+  const dispatch = useDispatch();
 
   const storedUserId = localStorage.getItem("userId");
+  const fetchCartList = async () => {
+    let res = await cartProductsByUserId(userId);
+    if (res?.status === 200) {
+      dispatch(fetchCartProducts(res?.data?.cart));
+    } else {
+      sendNotification("warning", res?.response?.data?.message);
+    }
+  };
 
   useEffect(() => {
-    setUserList(JSON.parse(localStorage.getItem("users")));
     setUserId(storedUserId);
   }, [storedUserId]);
 
   useEffect(() => {
-    if (userId !== undefined && userList !== undefined) {
-      const currentUser = userList?.find((e) => e.id == userId);
-      setCurrentUser(currentUser);
-    }
-  }, [userId, userList]);
+    console.log("fetching cart list");
+    fetchCartList();
+  }, [refreshList]);
+
+  useEffect(() => {
+    (async () => {
+      let response = await userById(userId);
+      if (response?.status === 200) {
+        setCurrentUser(response?.data?.user);
+      }
+    })();
+  }, [userId]);
 
   const logout = () => {
     localStorage.removeItem("userId");
-    setUserId("");
+    setUserId(null);
     navigate("/");
   };
 
-  return { userId, userList, currentUser, logout };
+  return { userId, currentUser, logout, cartList, refreshList, setRefreshList };
 };

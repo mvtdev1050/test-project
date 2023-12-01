@@ -4,6 +4,7 @@ import { checkIfobjEmpty, validateForm } from "../../utils/helper";
 import { sendNotification } from "../../utils/notifications";
 import { Link, useNavigate } from "react-router-dom";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { loginUser } from "../../services/api/user";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const LoginForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formErrors = validateForm(user);
@@ -36,27 +37,15 @@ const LoginForm = () => {
 
     let noErrors = checkIfobjEmpty(formErrors);
 
-    let currentUserId = "";
-    let existUser = false;
-
-    const checkIfUserExist = () => {
-      userList?.forEach((e) => {
-        if (e.email === user.email && e.password === user.password) {
-          currentUserId = e.id;
-          existUser = true;
-        }
-      });
-    };
-    checkIfUserExist();
-
-    if (noErrors && existUser) {
-      console.log("1111111111");
-      localStorage.setItem("userId", currentUserId);
-      sendNotification("success", "User Login Successfully");
-      navigate("/");
-    } else {
-      console.log("222222222");
-      sendNotification("danger", "User not exist");
+    if (noErrors) {
+      let res = await loginUser(user);
+      if (res?.status === 200) {
+        localStorage.setItem("userId", res?.data?.userId);
+        sendNotification("success", res?.data?.message);
+        navigate("/");
+      } else {
+        sendNotification("warning", res?.response?.data?.message);
+      }
     }
   };
 

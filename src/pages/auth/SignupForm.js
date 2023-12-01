@@ -1,17 +1,16 @@
-import React, { useEffect, useId, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { checkIfobjEmpty, validateForm } from "../../utils/helper";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { sendNotification } from "../../utils/notifications";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { registerUser } from "../../services/api/user";
 
 const SignupForm = () => {
   const navigate = useNavigate();
-  const { userList } = useLocalStorage();
 
   const [user, setUser] = useState({
-    name: "",
+    username: "",
     email: "",
     phone: "",
     password: "",
@@ -32,36 +31,56 @@ const SignupForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formErrors = validateForm(user);
     setErrors(formErrors);
 
-    let updatedUserList = [];
-    let existUser = false;
-
-    let dataList = userList ? userList : [];
-    updatedUserList = [
-      ...dataList,
-      {
-        ...user,
-        id: new Date().getTime(),
-      },
-    ];
-
     let noErrors = checkIfobjEmpty(formErrors);
 
-    if (existUser) {
-      console.log("1111111");
-      sendNotification("warning", "User Already Existed");
-    } else if (noErrors) {
-      localStorage.setItem("users", JSON.stringify(updatedUserList));
-      console.log("222222");
-      sendNotification("success", "User Created Successfully");
-      navigate("/login");
+    if (noErrors) {
+      let res = await registerUser(user);
+
+      if (res?.status === 201) {
+        sendNotification("success", res?.data?.message);
+        navigate("/login");
+      } else {
+        sendNotification("warning", res?.response?.data?.message);
+      }
     }
   };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   const formErrors = validateForm(user);
+  //   setErrors(formErrors);
+
+  //   let updatedUserList = [];
+  //   let existUser = false;
+
+  //   let dataList = userList ? userList : [];
+  //   updatedUserList = [
+  //     ...dataList,
+  //     {
+  //       ...user,
+  //       id: new Date().getTime(),
+  //     },
+  //   ];
+
+  //   let noErrors = checkIfobjEmpty(formErrors);
+
+  //   if (existUser) {
+  //     console.log("1111111");
+  //     sendNotification("warning", "User Already Existed");
+  //   } else if (noErrors) {
+  //     localStorage.setItem("users", JSON.stringify(updatedUserList));
+  //     console.log("222222");
+  //     sendNotification("success", "User Created Successfully");
+  //     navigate("/login");
+  //   }
+  // };
 
   return (
     <section className="common_section">
@@ -74,13 +93,15 @@ const SignupForm = () => {
                 type="text"
                 autoComplete="off"
                 className="px-2"
-                value={user.name}
-                name="name"
+                value={user.username}
+                name="username"
                 onChange={handleChange}
-                placeholder=" Name ........."
+                placeholder="Username ........."
               />
             </div>
-            <p className="text-danger">{errors?.name ? errors.name : ""}</p>
+            <p className="text-danger">
+              {errors?.username ? errors.username : ""}
+            </p>
             <div className="mb-3">
               <input
                 type="text"

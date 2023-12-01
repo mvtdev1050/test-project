@@ -1,19 +1,15 @@
 import React from "react";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { FiLogOut } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import "./header.css";
-import { type } from "@testing-library/user-event/dist/type";
 
 const Header = () => {
-  const { userId, userList, logout, currentUser } = useLocalStorage();
-  const cart = useSelector((state) => state?.cart);
-  console.log(userList, typeof userList);
-
+  const { userId, logout, currentUser, cartList } = useLocalStorage();
   const route = useLocation()?.pathname;
+
   return (
     <Navbar expand="lg" bg="light" data-bs-theme="light" sticky="top">
       <Container>
@@ -27,7 +23,7 @@ const Header = () => {
             >
               HOME
             </Link>
-            {userId === null || userList?.length === 0 ? (
+            {userId === null ? (
               <Link
                 to="/signup"
                 className={` pt-2 mx-2 ${
@@ -37,7 +33,7 @@ const Header = () => {
                 SIGNUP
               </Link>
             ) : null}
-            {userId === null || userList?.length === 0 ? (
+            {userId === null ? (
               <Link
                 to="/login"
                 className={` pt-2 mx-2 ${
@@ -47,7 +43,7 @@ const Header = () => {
                 LOGIN
               </Link>
             ) : null}
-            {userId === null || userList?.length === 0 ? null : (
+            {userId === null ? null : (
               <Link
                 to="/cart"
                 className={` pt-2 mx-2 ${
@@ -56,10 +52,10 @@ const Header = () => {
                     : "link"
                 }`}
               >
-                CART {cart?.length === 0 ? "" : `(${cart.length})`}
+                CART {cartList?.length === 0 ? "" : `(${cartList.length})`}
               </Link>
             )}
-            {userId === null || userList?.length === 0 ? null : (
+            {userId === null ? null : (
               <NavDropdown
                 title={currentUser?.name?.toUpperCase()}
                 id="basic-nav-dropdown"

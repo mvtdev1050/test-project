@@ -2,8 +2,10 @@ import api from "../../utils/axios";
 
 export const fetchProducts = () => async (dispatch) => {
   try {
-    let { data } = await api.get();
-    dispatch({ type: "FETCH_DATA", payload: data });
+    let response = await api.get("/get-products");
+    if (response.status === 200) {
+      dispatch({ type: "FETCH_DATA", payload: response?.data?.products });
+    }
   } catch (error) {
     console.log(error);
   }
